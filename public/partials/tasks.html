@@ -1,0 +1,100 @@
+<div>
+
+
+    <div class="row">
+        <div class="medium-4 left">
+            <h1>Tasks:</h1>
+        </div>
+        <a ng-href="#/add_task">
+            <div class="button medium-2 radius success right">
+                Create task
+            </div>
+        </a>
+    </div>
+
+
+    <div class="row">
+        <form action="">
+            <div class="medium-4 columns text-center">
+                <input ng-model="filter" type="radio" name="status" value="pending">
+                <span  class="radio-horiz" >Pending</span>
+                <input ng-model="filter" type="radio" name="status" value="completed">
+                <span class="radio-horiz" >Compeleted</span>
+                <input ng-model="filter" type="radio" name="status" value="all">
+                <span  class="radio-horiz" >All</span>
+            </div>
+
+            <div class="medium-4 columns">
+                <select ng-model="sort">
+                    <option value="dateCreated">Date Created</option>
+                    <option value="deadline">Deadline</option>
+                    <option value="name">Name</option>
+                    <option value="assignedUserName">Assigned Username</option>
+                </select>
+            </div>
+
+            <div class="medium-4 columns">
+                <input ng-model="ascendSort" type="radio" name="ascendSort" value="ascending">
+                <span class="radio-horiz" >Ascending</span>
+                <input ng-model="ascendSort" type="radio" name="ascendSort" value="descending">
+                <span  class="radio-horiz">Descending</span>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="row">
+        <div ng-click="prevClicked()" class="prevButton disabled medium-2 column left button radius">
+            Previous
+        </div>
+        <div ng-click="nextClicked()" class="nextButton medium-2 column right button radius">
+            Next
+        </div>
+    </div>
+
+    <div class="row">
+        <ol>
+            <li ng-repeat="task in tasks" id="{{task._id}}">
+                <hr>
+                <div class="row task-row">
+
+                    <div class="task-name medium-8 columns">
+                        <div class="medium-6 columns ">
+                            <a ng-click="taskClicked(task._id)" ng-href="#/tasks/{{task._id}}">
+                                <h3 ng-bind="task.name | uppercase" class="task-list-name"></h3>
+                            </a>
+                        </div>
+                        <div class="medium-6 columns">
+                            <a ng-click="taskClicked(task._id)" ng-href="#/tasks/{{task._id}}">
+                            <span class="task-list-name">
+                                Deadline: <span ng-bind="convertToString(task.deadline)"></span>
+                            </span><br>
+                            <span class="task-list-name">
+                                Assigned To: <span ng-bind="task.assignedUserName | uppercase"></span>
+                            </span>
+
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="medium-2 columns task-delete">
+                        <div ng-click="deleteClicked($event, task._id)" class="button alert radius">delete</div>
+                    </div>
+                </div>
+
+            </li>
+        </ol>
+    </div>
+
+    <div class="row">
+        <div ng-click="prevClicked()" class="prevButton disabled medium-2 column left button radius">
+            Previous
+        </div>
+        <div ng-click="nextClicked()" class="nextButton medium-2 column right button radius">
+            Next
+        </div>
+    </div>
+
+</div>
+

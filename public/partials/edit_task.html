@@ -1,0 +1,71 @@
+<div>
+
+    <h1>Edit Task:</h1>
+
+    <div class="alert-success row medium-3 alert-box success radius">
+        Task Successfully updated!
+    </div>
+    <div class="alert-fail row medium-3 alert-box alert radius">
+        Task Failed to update!
+    </div>
+
+
+    <div class="row medium-3 input-form">
+        <form id="edit-form" action="">
+            <div>
+                <h4>Name:</h4>
+                <label class="error">
+                    <input ng-change="updateName()" ng-model="task.name" type="text"
+                           class="error"/>
+                </label>
+
+                <div style="height: 47px;">
+                    <small id="the-task-error" class="username-class error">Required Field</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <h4>Description:</h4>
+                <textarea ng-model="task.description" style="height: 100px;" class="error"></textarea>
+                </label>
+            </div>
+
+            <div class="form-row">
+                <h4>Deadline:</h4>
+                <datepicker date-format="MMMM d, y" date-set="{{task.deadline}}">
+                    <input ng-model="task.deadline" type="text"/>
+                </datepicker>
+            </div>
+
+            <div class="form-row">
+                <h4>Assigned User:</h4>
+                <select ng-model="task.assignedUser" ng-options="user._id as user.name for user in users" id="getName">
+                </select>
+            </div>
+
+            <div class="form-row">
+                <span class="radio-horiz">Completed:</span>
+                <input ng-model="task.completed" type="radio" name="taskCompleted" ng-value="true">
+                <span class="radio-horiz">Yes</span>
+                <input ng-model="task.completed" type="radio" name="taskCompleted" ng-value="false">
+                <span class="radio-horiz">No</span>
+            </div>
+
+            <div class="form-row">
+                <div ng-click="submitEdit()" class="button radius">Submit</div>
+            </div>
+
+        </form>
+
+        <div class="alert-success row medium-3 alert-box success radius">
+            Task Successfully updated!
+        </div>
+        <div class="alert-fail row medium-3 alert-box alert radius">
+            Task Failed to update!
+        </div>
+
+
+    </div>
+
+
+</div>

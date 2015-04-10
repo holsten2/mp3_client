@@ -1,0 +1,65 @@
+<div>
+
+    <div class="row">
+        <div class="medium-6 left">
+            <h1>Create Task:</h1>
+        </div>
+    </div>
+
+
+    <div class="row medium-3 input-form">
+        <form action="">
+            <div class="row">
+                <h4>Name:</h4>
+                <label class="error">
+                    <input ng-change="setName()" ng-model="name" placeholder="Task Name" type="text"
+                           class="error"/>
+                </label>
+                <div style="height: 40px;">
+                    <small id="the-name-error" class="username-class error">Required Field</small>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4>Deadline:</h4>
+                <datepicker date-format="MMMM d, y" class="error" >
+                    <input ng-model="deadlineInput" type="text"/>
+                </datepicker>
+
+                <div style="height: 67px">
+                    <small id="the-date-error" class="email-class error" style="margin-top: 0px; padding-top: 45px;">Required Field</small>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4>Description:</h4>
+                <label>
+                    <textarea ng-model="description" class="error" placeholder="Description" type="text"></textarea>
+                </label>
+
+            </div>
+
+            <div class="row">
+                <h4>Assigned User:</h4>
+                <select ng-model="assignedUser" ng-options="user._id as user.name for user in users" id="getName"></select>
+            </div>
+
+        </form>
+
+        <div ng-click="createTask()" class="button radius medium-12 columns">
+            Create Task
+        </div>
+
+
+    </div>
+
+
+    <div class="alert-success row medium-3 alert-box success radius">
+        Task Successfully Created!
+    </div>
+
+    <div class="alert-fail row medium-3 alert-box alert radius">
+        Task Failed to Create :(
+    </div>
+
+</div>

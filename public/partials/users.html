@@ -1,0 +1,36 @@
+<div>
+
+    <div class="row">
+        <div class="medium-4 left">
+            <h1>Users:</h1>
+        </div>
+        <a href="#/add_user">
+            <div class="button medium-2 radius success right">
+                Add User
+            </div>
+        </a>
+    </div>
+
+
+</div>
+<div class="row medium-7">
+    <ol>
+        <li ng-repeat="user in users" id="{{user._id}}">
+            <hr>
+            <div class="row text-center user-row">
+
+                <div class="medium-10 columns user-name">
+                    <a ng-click="userClicked(user._id)" ng-href="#/users/{{user._id}}">
+                        <h3 ng-bind="user.name | uppercase" class="list-name"></h3>
+                    </a>
+                </div>
+                <div class="medium-2 columns user-delete">
+                    <div ng-click="deleteClicked($event, user._id)" class="button alert radius">delete</div>
+                </div>
+            </div>
+
+        </li>
+    </ol>
+</div>
+
+</div>

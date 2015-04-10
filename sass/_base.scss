@@ -1,14 +1,188 @@
 @import url('http://fonts.googleapis.com/css?family=Bree+Serif|Merriweather');
 @import url('http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css');
+@import url('http://fonts.googleapis.com/css?family=Exo');
+@import url('http://fonts.googleapis.com/css?family=Poiret+One');
+
+
 
 
 h1 {
-  font-size: 2.2rem;
-  color: lighten($orange, 25);
+    font-size: 5.2rem;
+    font-family: $font-item;
 }
 
-.test {
-  font-size: 1.2rem;
-  color: $blue;
+h2 {
+    font-size: 3.2rem;
+    font-family: $font-item;
+    color: #550000;
+
 }
 
+h3 {
+    font-size: 2.2rem;
+    font-family: $font-detail;
+    margin-bottom: 40px;
+}
+
+h4 {
+    font-size: 1.2rem;
+    font-family: $font-detail;
+    line-height: 120%;
+}
+
+.complete-panel{
+    color: #ffffff;
+    padding-top: 15px;
+
+}
+
+.pending-panel{
+    color: #ffffff;
+    padding-top: 15px;
+}
+
+.title {
+    font-size: 1.2rem;
+//    color: $blue;
+    font-family: $font-item;
+}
+
+.name-title{
+    font-size: 3.2rem;
+    color: green;
+    font-family: $font-item;
+    margin: 10px;
+}
+
+.info{
+    font-size: 1.5rem;
+    font-family: $font-detail;
+    margin: 10px;
+}
+
+
+
+.top-buttons {
+    border-right-color: black;
+    border-right-width: 1px;
+    border-left-color: black;
+    border-left-width: 1px;
+}
+
+
+
+.ch{
+    margin: 0 auto;
+}
+
+.cvo{
+    display: table;
+
+    .cvi{
+        display: table-cell;
+        vertical-align: middle;
+    }
+}
+
+
+
+.user-row{
+    cursor: pointer;
+
+
+    .user-name{
+        height: 70px;
+        padding-top: 17px !important;
+        transition-duration: .3s;
+        transition-timing-function: ease-out;
+
+
+        .list-name{
+            font-family: $font-item;
+            font-size: 2.0rem;
+            transition-duration: .3s;
+            transition-timing-function: ease-out;
+            text-decoration: none;
+            color: darkblue;
+
+        }
+        .list-name:hover{
+            transition-duration: .5s;
+            transition-timing-function: ease-out;
+            color: #007095;
+
+        }
+    }
+    .user-name:hover {
+        transform: scale(1.2);
+        transition-duration: .5s;
+        transition-timing-function: ease-out;
+    }
+
+
+    .user-delete{
+        height: 70px;
+        padding-top: 17px;
+    }
+
+}
+
+.task-row{
+    @extend .user-row;
+
+    .task-name{
+        @extend .user-name;
+
+        .task-list-name{
+            @extend .list-name;
+            font-size: 1.0rem;
+
+        }
+        .task-list-name:hover{
+            @extend .list-name:hover;
+
+        }
+    }
+    .task-name:hover {
+        @extend .user-name:hover;
+
+    }
+
+
+    .task-delete{
+
+    }
+
+}
+
+
+.input-form{
+    margin-top: 10px;
+}
+
+.alert-success{
+    display: none;
+}
+
+.alert-fail{
+    display: none;
+}
+
+.initial-hidden{
+    display:none;
+}
+
+.radio-horiz{
+    margin-right: 15px;
+    font-family: $font-item;
+}
+
+.form-row{
+
+    margin-bottom: 30px;
+}
+
+.disabled{
+    background-color: darkgrey !important;
+
+}

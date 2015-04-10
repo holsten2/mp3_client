@@ -1,0 +1,56 @@
+<div>
+    <h1>Task Details:</h1>
+
+
+    <div class="row">
+        <div class="medium-4 columns">
+            <h2>Name:</h2>
+
+            <h3>{{task.name}}</h3>
+        </div>
+
+        <div class="medium-4 columns text-center">
+            <a ng-href="#/tasks/{{task._id}}/edit_task">
+                <div class="button large radius">
+                    Edit Task
+                </div>
+            </a>
+        </div>
+        <div class="medium-4 columns">
+            <h2>Deadline:</h2>
+
+            <h3>{{convertToString(task.deadline)}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-4 columns">
+            <h2>Assigned To:</h2>
+
+            <h3>{{task.assignedUserName}}</h3>
+        </div>
+        <div class="medium-4 columns">
+            <div ng-if="task.completed" style="height: 100px;" class="text-center alert-box success ">
+                <h3 class="complete-panel">Completed</h3>
+            </div>
+            <div ng-if="!task.completed" style="height: 100px;" class="text-center alert-box alert large ">
+                <h3 class="pending-panel">Pending</h3>
+            </div>
+
+        </div>
+        <div class="medium-4 columns">
+            <h2>Created On:</h2>
+
+            <h3>{{convertToString(task.dateCreated)}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Description:</h2>
+
+        <h3>{{task.description}}</h3>
+    </div>
+
+
+</div>
+
+
+<!--http://www.uiucwp.com:4000/api-->

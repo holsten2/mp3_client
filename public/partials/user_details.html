@@ -1,0 +1,67 @@
+<div>
+
+    <div class="columns medium-6 right">
+        <div class="row text-center">
+            <h3 class="name-title">User Info:</h3>
+        </div>
+        <div class="row text-center">
+            <h2 ng-bind="user.name | uppercase" style="font-size: 2.0rem; color: red" class="title"></h2>
+        </div>
+        <div class="row text-center">
+            <h2 ng-bind="user.email" class="info"></h2>
+        </div>
+        <div class="row text-center">
+            <h2 class="info"><span>Member Since: </span>{{formatDate}}</h2>
+        </div>
+    </div>
+
+    <div class="columns medium-6">
+        <div class="row">
+            <h1>Pending Tasks:</h1>
+            <ol>
+                <li ng-repeat="pendingTask in pendingTasks" id="{{pendingTask._id}}">
+                    <hr>
+                    <div class="row text-center user-row">
+
+                        <div class="medium-10 columns user-name">
+                            <a ng-click="taskClicked(pendingTask._id)" ng-href="#/tasks/{{pendingTask._id}}">
+                                <h3 ng-bind="pendingTask.name | uppercase" class="list-name"
+                                    style="font-size: 1.4rem;"></h3>
+                            </a>
+                        </div>
+                        <div class="medium-2 columns user-delete">
+                            <div id="complete-button-{{pendingTask._id}}" ng-click="completeClicked($event, pendingTask._id)" class="button success radius">Mark
+                                as Compelete
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+            </ol>
+        </div>
+        <br/><br/><br/><br/>
+        <div ng-click="showCompleted()" class="row button radius">Toggle Show Completed</div>
+        <div class="row initial-hidden">
+            <h1>Completed Tasks:</h1>
+            <ol id="completedTaskList">
+                <li ng-repeat="completedTask in completedTasks" id="{{completedTask._id}}">
+                    <hr>
+                    <div class="row text-center user-row">
+
+                        <div class="medium-10 columns user-name">
+                            <a ng-click="taskClicked(completedTask._id)" ng-href="#/tasks/{{completedTask._id}}">
+                                <h3 ng-bind="completedTask.name | uppercase" class="list-name"
+                                    style="font-size: 1.4rem;"></h3>
+                            </a>
+                        </div>
+                    </div>
+
+                </li>
+            </ol>
+        </div>
+
+    </div>
+</div>
+
+
+<!--http://www.uiucwp.com:4000/api-->

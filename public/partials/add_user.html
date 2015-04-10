@@ -1,0 +1,50 @@
+<div>
+
+    <div class="row">
+        <div class="medium-6 left">
+            <h1>Create User:</h1>
+        </div>
+    </div>
+
+
+    <div class="row medium-3 input-form">
+        <form action="">
+            <div class="row">
+                Username:
+                <label class="error">
+                    <input ng-change="updateUsername()" ng-model="username" placeholder="Username" type="text"
+                           class="error"/>
+                </label>
+                <div style="height: 47px;">
+                    <small id="the-user-error" class="username-class error">Required Field</small>
+                </div>
+            </div>
+
+            <div class="row">
+                Email:
+                <label class="error">
+                    <input ng-change="updateEmail()" ng-model="email" class="error" placeholder="Email" type="text"/>
+                </label>
+                <div style="height: 57px">
+                    <small id="the-email-error" class="email-class error">Required Field</small>
+                </div>
+            </div>
+        </form>
+
+        <div ng-click="createUser()" class="button radius medium-12 columns">
+            Create User
+        </div>
+
+
+    </div>
+
+
+    <div class="alert-success row medium-3 alert-box success radius">
+        User Successfully Created!
+    </div>
+
+    <div class="alert-fail row medium-3 alert-box alert radius">
+        Email already taken!
+    </div>
+
+</div>
