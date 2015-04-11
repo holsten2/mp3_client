@@ -271,16 +271,24 @@ appControllers.controller('TasksController', ['$http', '$scope', '$window', 'Tas
                 })
                 .then(function(response){
                     var user_obj = response.data.data;
-                    var index = user_obj.pendingTasks.indexOf(taskId);
-                    if(index >= 0){
-                        user_obj.pendingTasks.splice(user_obj.pendingTasks.indexOf(taskId), 1);
-                    }
-                    return UserDetailsService.update_user(user_obj._id, user_obj);
+                    if(user_obj != undefined && user_obj.pendingTasks != undefined)
+                    {
+                        var index = user_obj.pendingTasks.indexOf(taskId);
+                        if(index >= 0){
+                            user_obj.pendingTasks.splice(user_obj.pendingTasks.indexOf(taskId), 1);
+                        }
+                        return UserDetailsService.update_user(user_obj._id, user_obj)
+                            .success(function(response){
+                                delete_elem.slideUp("slow");
+                            });
 
-                })
-                .then(function(response){
-                    delete_elem.slideUp("slow");
+                    }
+                    else{
+                        delete_elem.slideUp("slow");
+                    }
+
                 });
+
 
 
         };
@@ -419,13 +427,15 @@ appControllers.controller('AddTaskController', ['$http', '$scope', '$window', 'A
         });
 
         $scope.$watch('assignedUser', function(value){
-            if(value == undefined || value.length == 0) {
+            if(value == undefined || value.length == 0 || value == "") {
                 return;
             }
 
             UserDetailsService.get(value)
                 .then(function(response){
-                   $scope.assignedUserName = response.data.data.name;
+                    $scope.assignedUserName = response.data.data.name;
+                    $scope.assignedUser = response.data.data._id;
+
                 });
 
         });
@@ -440,13 +450,14 @@ appControllers.controller('AddTaskController', ['$http', '$scope', '$window', 'A
                 description: $scope.description,
                 deadline: $scope.deadline,
                 assignedUser: $scope.assignedUser,
-                assignedUserName: $scope.assignedUserName
+                assignedUserName: $scope.assignedUserName,
+                completed: false
             };
 
-            if(new_task.assignedUser = "") {
-                //delete new_task.assignedUser;
+            if(new_task.assignedUser == "") {
                 new_task.assignedUserName = "Unassigned";
             }
+
 
             AddTaskService.create_task(new_task)
                 .then(function(firstResponse){
@@ -469,6 +480,10 @@ appControllers.controller('AddTaskController', ['$http', '$scope', '$window', 'A
                                 }
                             });
 
+                    }
+                    else{
+                        $('.alert-fail').slideUp("fast");
+                        $('.alert-success').slideDown("fast");
                     }
                 });
 
@@ -502,12 +517,23 @@ appControllers.controller('TaskDetailsController',
         TaskDetailsService.get_task($scope.id)
             .then(function (response) {
                 $scope.task = response.data.data;
+                if($scope.task.assignedUserName == "unassigned" || $scope.task.assignedUser == ""){
+                    $scope.isAssigned = false;
+                }
+                else{
+                    $scope.isAssigned = true;
+                }
                 $scope.isComplete = $scope.task.completed;
                 $scope.notCompleted = !$scope.task.completed;
+                if(!$scope.isAssigned){
+                    $('.hideIfUnassigned').css("display", "none");
+                }
             });
 
         $scope.$watch('isComplete', function (value) {
-            if (value == undefined || value == $scope.task.completed) return;
+            if (value == undefined || value == $scope.task.completed) {
+                return;
+            }
 
             $scope.task.completed = value;
             TaskDetailsService.update_task($scope.task._id, $scope.task);
@@ -608,17 +634,19 @@ appControllers.controller('EditTaskController',
                     //And we are on a different user now, remove from old no matter what
                     else {
                         UserDetailsService.get(prevUser)
-                            .then(function (response) {
+                            .success(function (response) {
                                 var user = response.data.data;
-                                for (var i = 0; i < user.pendingTasks.length; i++) {
-                                    var user_pending_id = user.pendingTasks[i];
-                                    if (user_pending_id == id) {
-                                        user.pendingTasks.splice(i, 1);
+                                if(user != undefined && user.pendingTasks != undefined){
+                                    for (var i = 0; i < user.pendingTasks.length; i++) {
+                                        var user_pending_id = user.pendingTasks[i];
+                                        if (user_pending_id == id) {
+                                            user.pendingTasks.splice(i, 1);
+                                        }
                                     }
+                                    return UserDetailsService.update_user(user._id, user);
                                 }
-                                return UserDetailsService.update_user(user._id, user);
                             })
-                            .then(function (response) {
+                            .success(function (response) {
                                 //if it is now completed do nothing
                                 if ($scope.task.completed) {
                                 }
@@ -628,7 +656,7 @@ appControllers.controller('EditTaskController',
                                         .then(function (response) {
                                             var user = response.data.data;
                                             if (!$scope.task.completed) {
-                                                user.pendingTasks.append($scope.task._id);
+                                                user.pendingTasks.push($scope.task._id);
                                                 return UserDetailsService.update_user(user._id, user);
                                             }
                                         });
