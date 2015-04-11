@@ -22,21 +22,21 @@ angular.module('appServices', [])
         return{
             get: function () {
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/users?select={\"_id\" : 1, \"name\" : 1}');
+                return $http.get(baseUrl+'/users?select={\"_id\" : 1, \"name\" : 1}');
             },
             delete_user: function (id) {
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.delete(baseUrl+'/api/users/'+id);
+                return $http.delete(baseUrl+'/users/'+id);
             },
             get_assoc_tasks : function(id){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks?where={\"assignedUser\" :\"' + id + '\"}');
+                return $http.get(baseUrl+'/tasks?where={\"assignedUser\" :\"' + id + '\"}');
             },
             remove_task_from_user : function(id, new_task){
                 var baseUrl = $window.sessionStorage.baseurl;
                 var request = {
                     method: 'PUT',
-                    url: baseUrl + '/api/tasks/' + id,
+                    url: baseUrl + '/tasks/' + id,
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
@@ -53,13 +53,13 @@ angular.module('appServices', [])
         return {
             testUsername : function(new_name) {
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/users?where={"name" : \"' + new_name + '\"}');
+                return $http.get(baseUrl+'/users?where={"name" : \"' + new_name + '\"}');
             },
             create_user: function(theName, theEmail) {
                 var baseUrl = $window.sessionStorage.baseurl;
                 var request = {
                     method: 'POST',
-                    url: baseUrl + '/api/users',
+                    url: baseUrl + '/users',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
@@ -72,7 +72,7 @@ angular.module('appServices', [])
         return {
             get : function(id) {
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/users/' + id);
+                return $http.get(baseUrl+'/users/' + id);
             },
             getTasks : function(ids){
                 var baseUrl = $window.sessionStorage.baseurl;
@@ -82,17 +82,17 @@ angular.module('appServices', [])
                     string_ids += "\"" + ids[i] + "\","
                 }
                 string_ids = string_ids.substr(0, string_ids.length - 1);
-                return $http.get(baseUrl+'/api/tasks?where={\"_id\": {"$in":['+ string_ids +']}}');
+                return $http.get(baseUrl+'/tasks?where={\"_id\": {"$in":['+ string_ids +']}}');
             },
             get_completed_tasks : function(id){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks?where={\"assignedUser\" : \"' + id + '\", \"completed\" : true}');
+                return $http.get(baseUrl+'/tasks?where={\"assignedUser\" : \"' + id + '\", \"completed\" : true}');
             },
             update_user : function(id, new_user){
                 var baseUrl = $window.sessionStorage.baseurl;
                 var request = {
                     method: 'PUT',
-                    url: baseUrl + '/api/users/' + id,
+                    url: baseUrl + '/users/' + id,
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
@@ -113,39 +113,39 @@ angular.module('appServices', [])
         return {
             get : function() {
                 var baseUrl = $window.sessionStorage.baseurl;
-                var retVal = $http.get(baseUrl+'/api/tasks?skip=' + offset + '&limit=10'+ sortStatement + whereStatement + selectStatement);
+                var retVal = $http.get(baseUrl+'/tasks?skip=' + offset + '&limit=10'+ sortStatement + whereStatement + selectStatement);
                 return retVal;
             },
             getCount : function(){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks/?count=true' + whereStatement);
+                return $http.get(baseUrl+'/tasks/?count=true' + whereStatement);
             },
             deleteItem : function(id){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.delete(baseUrl+'/api/tasks/'+id);
+                return $http.delete(baseUrl+'/tasks/'+id);
             },
             getNext : function() {
                 offset += 10;
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks?skip=' + offset + '&limit=10'+ sortStatement + whereStatement + selectStatement);
+                return $http.get(baseUrl+'/tasks?skip=' + offset + '&limit=10'+ sortStatement + whereStatement + selectStatement);
             },
             getPrev : function() {
                 offset -= 10;
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks?skip=' + offset + '&limit=10'+ sortStatement + whereStatement + selectStatement);
+                return $http.get(baseUrl+'/tasks?skip=' + offset + '&limit=10'+ sortStatement + whereStatement + selectStatement);
             },
             sortSelection : function(newSortVar) {
                 sortVar = newSortVar;
                 sortStatement = '&sort={\"'+ sortVar +'\" : '+ sortAscend +'}';
                 offset = 0;
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks?skip=' + offset + '&limit=10' + sortStatement + whereStatement + selectStatement);
+                return $http.get(baseUrl+'/tasks?skip=' + offset + '&limit=10' + sortStatement + whereStatement + selectStatement);
             },
             ascendSortSelection : function(newSort){
                 sortAscend = newSort;
                 sortStatement = '&sort={\"'+ sortVar +'\" : '+ sortAscend +'}';
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks?skip=' + offset + '&limit=10' + sortStatement + whereStatement + selectStatement);
+                return $http.get(baseUrl+'/tasks?skip=' + offset + '&limit=10' + sortStatement + whereStatement + selectStatement);
             },
             filterSelection : function(value){
                 offset = 0;
@@ -153,7 +153,7 @@ angular.module('appServices', [])
                 else if(value === "completed") whereStatement = '&where={\"completed\" : true}';
                 else whereStatement = '&where={\"completed\" : false}';
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks?skip=' + offset + '&limit=10' + sortStatement + whereStatement);
+                return $http.get(baseUrl+'/tasks?skip=' + offset + '&limit=10' + sortStatement + whereStatement);
             }
         }
     })
@@ -161,13 +161,13 @@ angular.module('appServices', [])
         return {
             get_task : function(id) {
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/tasks/' + id);
+                return $http.get(baseUrl+'/tasks/' + id);
             },
             update_task : function(id, updated) {
                 var baseUrl = $window.sessionStorage.baseurl;
                 var request = {
                     method: 'PUT',
-                    url: baseUrl + '/api/tasks/' + id,
+                    url: baseUrl + '/tasks/' + id,
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
@@ -184,7 +184,7 @@ angular.module('appServices', [])
                 var baseUrl = $window.sessionStorage.baseurl;
                 var request = {
                     method: 'POST',
-                    url: baseUrl + '/api/tasks',
+                    url: baseUrl + '/tasks',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },

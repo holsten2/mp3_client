@@ -55,44 +55,79 @@ appControllers.controller('UsersController', ['$q', '$http', '$scope', '$window'
 
 appControllers.controller('AddUserController', ['$http', '$scope', '$window', 'AddUserService',
     function ($http, $scope, $window, AddUserService) {
-
+        var userError = true;
+        var emailError = true;
+        $scope.email = "";
+        $scope.user = "";
 
         $scope.updateUsername = function () {
+            $(".alert-success").slideUp("fast");
+
             if ($scope.username.length == 0) {
+                userError = true;
                 $('.username-class').slideDown("fast");
                 $('#the-error').html("Required Field");
             }
             else {
                 AddUserService.testUsername($scope.username.toLowerCase()).success(function (data) {
                     if (data.data.length != 0) {
+                        userError = true;
                         $('.username-class').slideDown("fast");
                         $('#the-user-error').html("Username already taken!");
                     }
                     else {
                         if ($scope.username.length == 0) {
+                            userError = true;
                             $('.username-class').slideDown("fast");
                             $('#the-user-error').html("Required Field");
                         }
                         else {
+                            userError = false;
                             $('.username-class').slideUp("fast");
                         }
 
                     }
                 });
             }
+            if(userError || emailError || $scope.email.length < 5){
+                $('#createUserBtn').addClass("disabled");
+            }
+            else{
+                $('#createUserBtn').removeClass("disabled");
+            }
         };
 
         $scope.updateEmail = function () {
+            $(".alert-fail").slideUp("fast");
+            $(".alert-success").slideUp("fast");
+
             if ($scope.email.length == 0) {
-                $('.email-class').slideDown("fast");
+                emailError = true;
+                $('#the-email-error').html("Required Field").slideDown("fast");
             }
             else {
-                $("#alert-fail").slideUp("fast");
-                $('.email-class').slideUp("fast");
+                if(($scope.email.indexOf("@") < 0 || $scope.email.indexOf(".") < 0 )&& $scope.email.length > 2){
+                    emailError = true;
+                    $('#the-email-error').slideDown("fast").html("Must be a valid email!");
+                }
+                else{
+                    emailError = false;
+                    $('#the-email-error').slideUp("fast");
+                }
+            }
+            if(userError || emailError || $scope.email.length < 5){
+                $('#createUserBtn').addClass("disabled");
+            }
+            else{
+                $('#createUserBtn').removeClass("disabled");
             }
         };
 
         $scope.createUser = function () {
+            if(userError || emailError || $scope.email.length < 5){
+                return;
+            }
+
             AddUserService.create_user($scope.username, $scope.email).success(function (data) {;
                 $(".alert-success").slideDown("fast");
                 $(".alert-fail").slideUp("fast");
@@ -306,7 +341,9 @@ appControllers.controller('TasksController', ['$http', '$scope', '$window', 'Tas
 
         $scope.$watch('filter', function (value) {
             if (value == undefined) return;
-
+            count = 0;
+            $('.nextButton').removeClass("disabled");
+            $('.prevButton').addClass("disabled");
             TasksService.filterSelection(value)
                 .success(function (data) {
                 $scope.data = data;
@@ -325,6 +362,9 @@ appControllers.controller('AddTaskController', ['$http', '$scope', '$window', 'A
 
         $scope.assignedUser = "";
         $scope.assignedUserName = "unassigned";
+        var nameError = true;
+        var deadlineError = true;
+        var descriptionError = true;
 
         UsersService.get()
             .then(function (response) {
@@ -334,21 +374,48 @@ appControllers.controller('AddTaskController', ['$http', '$scope', '$window', 'A
 
         $scope.setName = function () {
             if ($scope.name.length == 0) {
+                nameError = true;
                 $('#the-name-error').slideDown("fast");
+                $("#newTaskBtn").addClass("disabled");
             }
             else {
+                nameError = false;
                 $("#alert-fail").slideUp("fast");
                 $('#the-name-error').slideUp("fast");
+                if(!nameError && !descriptionError && !deadlineError){
+                    $("#newTaskBtn").removeClass("disabled");
+                }
             }
         };
 
         $scope.$watch('deadlineInput', function(value){
             if(value == undefined || value.length == 0) {
+                deadlineError = true;
                 $('#the-date-error').slideDown("fast");
+                $("#newTaskBtn").addClass("disabled");
                 return;
             }
+            deadlineError = false;
             $('#the-date-error').slideUp("fast");
             $scope.deadline = new Date(value).toISOString();
+            if(!nameError && !descriptionError && !deadlineError){
+                $("#newTaskBtn").removeClass("disabled");
+            }
+        });
+
+        $scope.$watch('description', function(value){
+            if(value == undefined || value.length == 0) {
+                descriptionError = true;
+                $('#the-description-error').slideDown("fast");
+                $("#newTaskBtn").addClass("disabled");
+                return;
+            }
+            descriptionError = false;
+            $('#the-description-error').slideUp("fast");
+            if(!nameError && !descriptionError && !deadlineError){
+                $("#newTaskBtn").removeClass("disabled");
+            }
+
         });
 
         $scope.$watch('assignedUser', function(value){
@@ -364,6 +431,10 @@ appControllers.controller('AddTaskController', ['$http', '$scope', '$window', 'A
         });
 
         $scope.createTask = function(){
+            if(descriptionError || deadlineError || nameError){
+                return;
+            }
+
             var new_task = {
                 name: $scope.name,
                 description: $scope.description,
@@ -372,10 +443,14 @@ appControllers.controller('AddTaskController', ['$http', '$scope', '$window', 'A
                 assignedUserName: $scope.assignedUserName
             };
 
+            if(new_task.assignedUser = "") {
+                //delete new_task.assignedUser;
+                new_task.assignedUserName = "Unassigned";
+            }
+
             AddTaskService.create_task(new_task)
                 .then(function(firstResponse){
                     curr_task = firstResponse.data.data;
-
                     if($scope.assignedUser != ""){
                         UserDetailsService.get($scope.assignedUser)
                             .then(function(response){
@@ -384,7 +459,7 @@ appControllers.controller('AddTaskController', ['$http', '$scope', '$window', 'A
                                 return UserDetailsService.update_user(curr_user._id, curr_user);
                             })
                             .then(function(response){
-                                if(response.data.data == ""){
+                                if(response.data.message == "User updated"){
                                     $('.alert-fail').slideUp("fast");
                                     $('.alert-success').slideDown("fast");
                                 }

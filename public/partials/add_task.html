@@ -26,7 +26,7 @@
                     <input ng-model="deadlineInput" type="text"/>
                 </datepicker>
 
-                <div style="height: 67px">
+                <div style="height: 77px">
                     <small id="the-date-error" class="email-class error" style="margin-top: 0px; padding-top: 45px;">Required Field</small>
                 </div>
             </div>
@@ -36,6 +36,9 @@
                 <label>
                     <textarea ng-model="description" class="error" placeholder="Description" type="text"></textarea>
                 </label>
+                <div style="height: 40px;">
+                    <small id="the-description-error" class="username-class error">Required Field</small>
+                </div>
 
             </div>
 
@@ -46,7 +49,7 @@
 
         </form>
 
-        <div ng-click="createTask()" class="button radius medium-12 columns">
+        <div id="newTaskBtn" ng-click="createTask()" class="button radius medium-12 columns">
             Create Task
         </div>
 
