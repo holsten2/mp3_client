@@ -10,11 +10,13 @@
         </div>
 
         <div class="medium-4 columns text-center">
+
             <a ng-href="#/tasks/{{task._id}}/edit_task">
                 <div class="button large radius">
                     Edit Task
                 </div>
             </a>
+
         </div>
         <div class="medium-4 columns">
             <h2>Deadline:</h2>
@@ -28,15 +30,28 @@
 
             <h3>{{task.assignedUserName}}</h3>
         </div>
-        <div class="medium-4 columns">
-            <div ng-if="task.completed" style="height: 100px;" class="text-center alert-box success ">
-                <h3 class="complete-panel">Completed</h3>
-            </div>
-            <div ng-if="!task.completed" style="height: 100px;" class="text-center alert-box alert large ">
-                <h3 class="pending-panel">Pending</h3>
-            </div>
 
+
+        <div class="medium-4 columns text-center">
+            <div class="row">
+                <div class="switch small">
+                    <span class="small-label">Pending</span>
+                    <input ng-model="isComplete" id="changeStatus" type="checkbox" checked>
+                    <label for="changeStatus"></label>
+                    <span class="small-label">Completed</span>
+                </div>
+            </div>
+            <div class="row">
+                <div ng-if="task.completed" style="height: 100px;" class="text-center alert-box success ">
+                    <h3 class="complete-panel">Completed</h3>
+                </div>
+                <div ng-if="!task.completed" style="height: 100px;" class="text-center alert-box alert large ">
+                    <h3 class="pending-panel">Pending</h3>
+                </div>
+            </div>
         </div>
+
+
         <div class="medium-4 columns">
             <h2>Created On:</h2>
 

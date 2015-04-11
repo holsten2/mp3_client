@@ -82,7 +82,6 @@ angular.module('appServices', [])
                     string_ids += "\"" + ids[i] + "\","
                 }
                 string_ids = string_ids.substr(0, string_ids.length - 1);
-                //console.log(baseUrl+'/api/tasks?where={\"_id\": {"$in":['+ string_ids +']}}');
                 return $http.get(baseUrl+'/api/tasks?where={\"_id\": {"$in":['+ string_ids +']}}');
             },
             get_completed_tasks : function(id){
@@ -128,7 +127,6 @@ angular.module('appServices', [])
             getNext : function() {
                 offset += 10;
                 var baseUrl = $window.sessionStorage.baseurl;
-                console.log(baseUrl+'/api/tasks?skip=' + offset + '&limit=10'+ sortStatement + whereStatement + selectStatement);
                 return $http.get(baseUrl+'/api/tasks?skip=' + offset + '&limit=10'+ sortStatement + whereStatement + selectStatement);
             },
             getPrev : function() {
